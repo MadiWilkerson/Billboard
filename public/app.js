@@ -20,6 +20,10 @@ const refreshButton = $("#refreshButton");
 const feedEl = $("#feed");
 const statusEl = $("#status");
 const charCountEl = $("#charCount");
+const captionDialog = $("#captionDialog");
+const dialogTitleEl = $("#dialogTitle");
+const dialogImgEl = $("#dialogImg");
+const dialogCaptionEl = $("#dialogCaption");
 
 let selected = null;
 let loading = false;
@@ -45,7 +49,6 @@ function renderSelected() {
       <img src="/images/${selected.file}" alt="${selected.emotion}" />
       <div class="selectedCard__meta">
         <div class="selectedCard__emotion">${selected.emotion}</div>
-        <div class="selectedCard__file">${selected.file}</div>
       </div>
     </div>
   `;
@@ -63,7 +66,6 @@ function renderGrid() {
       <img class="tile__img" src="/images/${img.file}" alt="${img.emotion}" />
       <div class="tile__label">
         <div class="emotion">${img.emotion}</div>
-        <div class="filename">${img.file.replace("Cricket", "")}</div>
       </div>
     `;
     btn.addEventListener("click", () => {
@@ -79,6 +81,14 @@ function renderGrid() {
 function formatTime(ms) {
   const d = new Date(ms);
   return d.toLocaleString([], { month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit" });
+}
+
+function openCaptionDialog(post) {
+  dialogTitleEl.textContent = post.emotion;
+  dialogImgEl.src = `/images/${post.image}`;
+  dialogImgEl.alt = post.emotion;
+  dialogCaptionEl.textContent = post.caption;
+  captionDialog.showModal();
 }
 
 function escapeHtml(str) {
@@ -98,22 +108,27 @@ function renderFeed(posts) {
 
   feedEl.innerHTML = posts
     .map((p) => {
+      const safeEmotion = escapeHtml(p.emotion);
+      const safeImage = escapeHtml(p.image);
       return `
-        <article class="post">
-          <div class="post__row">
-            <img class="post__img" src="/images/${escapeHtml(p.image)}" alt="${escapeHtml(p.emotion)}" />
-            <div class="post__meta">
-              <div class="post__emotion">
-                <strong>${escapeHtml(p.emotion)}</strong>
-                <span class="post__time">${formatTime(p.created_at)}</span>
-              </div>
-              <div class="post__caption">${escapeHtml(p.caption)}</div>
-            </div>
+        <button class="postTile" type="button" data-post-id="${p.id}">
+          <img class="postTile__img" src="/images/${safeImage}" alt="${safeEmotion}" />
+          <div class="postTile__label">
+            <div class="postTile__emotion">${safeEmotion}</div>
+            <div class="postTile__time">${formatTime(p.created_at)}</div>
           </div>
-        </article>
+        </button>
       `;
     })
     .join("");
+
+  for (const btn of feedEl.querySelectorAll(".postTile")) {
+    btn.addEventListener("click", () => {
+      const id = Number(btn.dataset.postId);
+      const post = posts.find((p) => p.id === id);
+      if (post) openCaptionDialog(post);
+    });
+  }
 }
 
 async function fetchPosts() {

@@ -59,6 +59,19 @@
       </section>
     </main>
 
+    <dialog class="dialog" id="captionDialog">
+      <form method="dialog" class="dialog__card">
+        <div class="dialog__header">
+          <div class="dialog__title" id="dialogTitle">Post</div>
+          <button class="button button--ghost button--sm" value="close" type="submit">Close</button>
+        </div>
+        <div class="dialog__body">
+          <img class="dialog__img" id="dialogImg" alt="" />
+          <div class="dialog__caption" id="dialogCaption"></div>
+        </div>
+      </form>
+    </dialog>
+
     <script src="/app.js" type="module"></script>
   </body>
 </html>
