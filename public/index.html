@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Billboard</title>
+    <link rel="stylesheet" href="https://use.typekit.net/kuk2ziw.css" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar__inner">
+        <div class="brand">
+          <div class="brand__title">Billboard</div>
+          <div class="brand__subtitle">Pick an emotion. Explain why. Post it for everyone.</div>
+        </div>
+        <div class="status" id="status">Loading…</div>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="left">
+        <div class="panel">
+          <h2 class="panel__title">Choose an emotion</h2>
+          <div class="grid" id="grid" aria-label="Emotion image grid"></div>
+        </div>
+
+        <div class="panel">
+          <h2 class="panel__title">Why do you feel it?</h2>
+          <div class="composer">
+            <div class="selected" id="selected">
+              <div class="selected__placeholder">Select an image to start.</div>
+            </div>
+
+            <label class="label" for="caption">Your caption</label>
+            <textarea
+              id="caption"
+              class="textarea"
+              maxlength="280"
+              placeholder="Type why you’re feeling that emotion…"
+            ></textarea>
+
+            <div class="composer__row">
+              <div class="hint" id="charCount">0 / 280</div>
+              <button class="button" id="postButton" disabled>Post to shared space</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="right">
+        <div class="panel panel--feed">
+          <div class="feedHeader">
+            <h2 class="panel__title">Shared space</h2>
+            <button class="button button--ghost" id="refreshButton" type="button">Refresh</button>
+          </div>
+          <div class="feed" id="feed" aria-live="polite"></div>
+        </div>
+      </section>
+    </main>
+
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>
+

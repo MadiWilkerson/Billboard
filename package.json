@@ -1,0 +1,15 @@
+{
+  "name": "billboard",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Emotion image board with shared posts",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "NODE_ENV=production node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
