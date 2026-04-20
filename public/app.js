@@ -18,7 +18,6 @@ const captionEl = $("#caption");
 const postButton = $("#postButton");
 const refreshButton = $("#refreshButton");
 const feedEl = $("#feed");
-const statusEl = $("#status");
 const charCountEl = $("#charCount");
 const captionDialog = $("#captionDialog");
 const dialogTitleEl = $("#dialogTitle");
@@ -27,10 +26,6 @@ const dialogCaptionEl = $("#dialogCaption");
 
 let selected = null;
 let loading = false;
-
-function setStatus(text) {
-  statusEl.textContent = text;
-}
 
 function setLoading(nextLoading) {
   loading = nextLoading;
@@ -133,18 +128,15 @@ function renderFeed(posts) {
 
 async function fetchPosts() {
   setLoading(true);
-  setStatus("Refreshing feed…");
   try {
     const res = await fetch("/api/posts");
     if (!res.ok) throw new Error(`Failed to fetch (${res.status})`);
     const data = await res.json();
     renderFeed(data.posts ?? []);
-    setStatus("Ready");
   } catch (err) {
     feedEl.innerHTML = `<div class="error">Couldn’t load the shared space. ${escapeHtml(
       err?.message ?? String(err)
     )}</div>`;
-    setStatus("Error");
   } finally {
     setLoading(false);
   }
@@ -155,7 +147,6 @@ async function createPost() {
   if (!selected || !caption) return;
 
   setLoading(true);
-  setStatus("Posting…");
 
   try {
     const res = await fetch("/api/posts", {
@@ -170,9 +161,7 @@ async function createPost() {
     captionEl.value = "";
     updateCharCount();
     await fetchPosts();
-    setStatus("Posted");
   } catch (err) {
-    setStatus("Error");
     feedEl.insertAdjacentHTML(
       "afterbegin",
       `<div class="error">Couldn’t post. ${escapeHtml(err?.message ?? String(err))}</div>`
