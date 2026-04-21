@@ -73,11 +73,6 @@ function renderGrid() {
   }
 }
 
-function formatTime(ms) {
-  const d = new Date(ms);
-  return d.toLocaleString([], { month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit" });
-}
-
 function openCaptionDialog(post) {
   dialogTitleEl.textContent = post.emotion;
   dialogImgEl.src = `/images/${post.image}`;
@@ -110,7 +105,6 @@ function renderFeed(posts) {
           <img class="postTile__img" src="/images/${safeImage}" alt="${safeEmotion}" />
           <div class="postTile__label">
             <div class="postTile__emotion">${safeEmotion}</div>
-            <div class="postTile__time">${formatTime(p.created_at)}</div>
           </div>
         </button>
       `;
