@@ -51,14 +51,20 @@ body {
   padding: 18px 18px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 16px;
+}
+
+.brand {
+  text-align: center;
+  width: 100%;
 }
 
 .brand__title {
   font-weight: 800;
   letter-spacing: -0.02em;
-  font-size: 20px;
+  font-size: 34px;
+  line-height: 1.05;
 }
 
 .panel__title,
